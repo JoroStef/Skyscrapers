@@ -1,0 +1,54 @@
+{
+  "skyscrapers": [
+    {
+      "Id": 1,
+      "Title": "Equitable Life Building",
+      "CityId": 1,
+      "Built": 1870,
+      "OfficialHeightInMeters": 43,
+      "NrOfFloors": 8,
+      "Status": "destroyed"
+    },
+    {
+      "Id": 2,
+      "Title": "Auditorium Building",
+      "CityId": 2,
+      "Built": 1889,
+      "OfficialHeightInMeters": 82,
+      "NrOfFloors": 17,
+      "Status": "standing"
+    },
+    {
+      "Id": 3,
+      "Title": "New York World Building",
+      "CityId": 1,
+      "Built": 1890,
+      "OfficialHeightInMeters": 94,
+      "NrOfFloors": 20,
+      "Status": "demolished"
+    }
+  ],
+  "cities": [
+    {
+      "Id": 1,
+      "Name": "New York City",
+      "CountryId": 1
+    },
+    {
+      "Id": 2,
+      "Name": "Chicago",
+      "CountryId": 1
+    }
+  ],
+  "countries": [
+    {
+      "Id": 1,
+      "Name": "United States"
+    },
+    {
+      "Id": 2,
+      "Name": "Canada"
+    }
+
+  ]
+}
