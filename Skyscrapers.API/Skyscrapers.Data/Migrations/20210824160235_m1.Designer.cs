@@ -9,7 +9,7 @@ using Skyscrapers.Data;
 namespace Skyscrapers.Data.Migrations
 {
     [DbContext(typeof(SkyscrapersDbContext))]
-    [Migration("20210822201319_m1")]
+    [Migration("20210824160235_m1")]
     partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
