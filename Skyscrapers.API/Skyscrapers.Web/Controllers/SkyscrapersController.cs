@@ -22,11 +22,17 @@ namespace Skyscrapers.Web.Controllers
         /// Returns skyscrapers collection filtered by title.
         /// </summary>
         /// <param name="title">String to search for in title.</param>
+        /// <param name="statuses">
+        /// Status to search for. Couldbe one of:
+        /// -- standing
+        /// -- demolished
+        /// -- destroyed
+        /// </param>
         /// <returns></returns>
         [HttpGet("")]
-        public async Task<IActionResult> Get([FromQuery] string title)
+        public async Task<IActionResult> Get([FromQuery] string title, [FromQuery] string[] statuses)
         {
-            var result = await this.skyscraperService.GetAsync(title);
+            var result = await this.skyscraperService.GetAsync(title, statuses);
 
             return Ok(result);
             

@@ -25,6 +25,8 @@ namespace Skyscrapers.Data
             modelBuilder.Entity<Country>().HasData(SeedDataFor<Country>("countries"));
             modelBuilder.Entity<City>().HasData(SeedDataFor<City>("cities"));
             modelBuilder.Entity<Skyscraper>().HasData(SeedDataFor<Skyscraper>("skyscrapers"));
+
+            if (Database.IsSqlServer()) modelBuilder.AddSqlFunctions();
         }
 
         // Using Newtonsoft.Json

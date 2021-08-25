@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skyscrapers.Data;
 using Skyscrapers.Data.Models;
+using Skyscrapers.Data.Models.Enums;
 using Skyscrapers.Services.Contracts;
 using Skyscrapers.Services.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.SqlTypes;
 
 namespace Skyscrapers.Services
 {
@@ -18,18 +21,29 @@ namespace Skyscrapers.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(string title)
+        public async Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(string title = null, string[] statuses = null)
         {
-            IQueryable<Skyscraper> result = dbContext.Skyscrapers
+            //IEnumerable<Skyscraper> skyscrapers = await dbContext.Skyscrapers
+            //    .Include(s => s.City)
+            //        .ThenInclude(c => c.Country).ToListAsync();
+            IQueryable<Skyscraper> skyscrapers = dbContext.Skyscrapers
                 .Include(s => s.City)
                     .ThenInclude(c => c.Country);
 
-            if (!string.IsNullOrEmpty(title))
+
+            if (statuses.Length > 0)
             {
-                result = result.Where(x => x.Title.Contains(title));
+                // Does not work if <skyscrapers> is IQueriable because there is no SQL equivalent to object.ToString()
+                skyscrapers = skyscrapers.Where(x => statuses.Any(y => x.Status.ToString() == y));
+                //skyscrapers = skyscrapers.Where(x => statuses.Any(y => SqlFunctions == y));
             }
 
-            return await result.Select(x => new SkyscraperOutputDTO(x)).ToListAsync();
+            if (!string.IsNullOrEmpty(title))
+            {
+                skyscrapers = skyscrapers.Where(x => x.Title.Contains(title));
+            }
+
+            return await skyscrapers.Select(x => new SkyscraperOutputDTO(x)).ToListAsync();
         }
     }
 }
