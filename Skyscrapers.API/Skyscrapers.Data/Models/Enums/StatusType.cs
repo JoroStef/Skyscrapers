@@ -8,6 +8,7 @@ namespace Skyscrapers.Data.Models.Enums
     {
         standing,
         demolished,
-        destroyed
+        destroyed,
+        under_construction
     }
 }

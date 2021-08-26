@@ -7,7 +7,7 @@
       "Built": 1870,
       "OfficialHeightInMeters": 43,
       "NrOfFloors": 8,
-      "Status": "destroyed"
+      "StatusId": 3
     },
     {
       "Id": 2,
@@ -16,7 +16,7 @@
       "Built": 1889,
       "OfficialHeightInMeters": 82,
       "NrOfFloors": 17,
-      "Status": "standing"
+      "StatusId": 1
     },
     {
       "Id": 3,
@@ -25,7 +25,7 @@
       "Built": 1890,
       "OfficialHeightInMeters": 94,
       "NrOfFloors": 20,
-      "Status": "demolished"
+      "StatusId": 2
     }
   ],
   "cities": [
@@ -49,5 +49,24 @@
       "Id": 2,
       "Name": "Canada"
     }
+  ],
+  "statuses": [
+    {
+      "Id": 1,
+      "Value": "standing"
+    },
+    {
+      "Id": 2,
+      "Value": "demolished"
+    },
+    {
+      "Id": 3,
+      "Value": "destroyed"
+    },
+    {
+      "Id": 4,
+      "Value": "under construction"
+    }
+
   ]
 }

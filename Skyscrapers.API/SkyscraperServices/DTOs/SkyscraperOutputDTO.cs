@@ -14,7 +14,7 @@ namespace Skyscrapers.Services.DTOs
             this.Built = model.Built;
             this.OfficialHeightInMeters = model.OfficialHeightInMeters;
             this.NrOfFloors = model.NrOfFloors;
-            this.Status = model.Status.ToString();
+            this.Status = model.Status.Value;
         }
 
         [JsonIgnore()]
@@ -30,7 +30,7 @@ namespace Skyscrapers.Services.DTOs
         public string Country { get; set; }
 
         [JsonPropertyName("built")]
-        public int Built { get; set; }
+        public int? Built { get; set; }
 
         [JsonPropertyName("official_height_in_meters")]
         public int OfficialHeightInMeters { get; set; }

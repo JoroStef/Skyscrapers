@@ -16,17 +16,18 @@ namespace Skyscrapers.Data
         }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Status> Statuses { get; set; }
         public DbSet<Skyscraper> Skyscrapers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Skyscraper>().Property(s => s.Status).HasConversion<string>();
+            //// If using enum for status
+            //modelBuilder.Entity<Skyscraper>().Property(s => s.Status).HasConversion<string>();
 
             modelBuilder.Entity<Country>().HasData(SeedDataFor<Country>("countries"));
             modelBuilder.Entity<City>().HasData(SeedDataFor<City>("cities"));
+            modelBuilder.Entity<Status>().HasData(SeedDataFor<Status>("statuses"));
             modelBuilder.Entity<Skyscraper>().HasData(SeedDataFor<Skyscraper>("skyscrapers"));
-
-            if (Database.IsSqlServer()) modelBuilder.AddSqlFunctions();
         }
 
         // Using Newtonsoft.Json
@@ -48,6 +49,7 @@ namespace Skyscrapers.Data
         //}
 
         // Using System.Text.Json
+        
         public static List<T> SeedDataFor<T>(string token)
         {
             string directory = Environment.CurrentDirectory + @"\..\";

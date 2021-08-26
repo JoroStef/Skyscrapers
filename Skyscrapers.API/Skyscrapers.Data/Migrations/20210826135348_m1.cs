@@ -20,6 +20,19 @@ namespace Skyscrapers.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Statuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Statuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -50,7 +63,7 @@ namespace Skyscrapers.Data.Migrations
                     Built = table.Column<int>(type: "int", nullable: false),
                     OfficialHeightInMeters = table.Column<int>(type: "int", nullable: false),
                     NrOfFloors = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,17 +74,33 @@ namespace Skyscrapers.Data.Migrations
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Skyscrapers_Statuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "United States" });
+                values: new object[,]
+                {
+                    { 1, "United States" },
+                    { 2, "Canada" }
+                });
 
             migrationBuilder.InsertData(
-                table: "Countries",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Canada" });
+                table: "Statuses",
+                columns: new[] { "Id", "Value" },
+                values: new object[,]
+                {
+                    { 1, "standing" },
+                    { 2, "demolished" },
+                    { 3, "destroyed" },
+                    { 4, "under construction" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Cities",
@@ -85,18 +114,18 @@ namespace Skyscrapers.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Skyscrapers",
-                columns: new[] { "Id", "Built", "CityId", "NrOfFloors", "OfficialHeightInMeters", "Status", "Title" },
-                values: new object[] { 1, 1870, 1, 8, 43, "destroyed", "Equitable Life Building" });
+                columns: new[] { "Id", "Built", "CityId", "NrOfFloors", "OfficialHeightInMeters", "StatusId", "Title" },
+                values: new object[] { 1, 1870, 1, 8, 43, 3, "Equitable Life Building" });
 
             migrationBuilder.InsertData(
                 table: "Skyscrapers",
-                columns: new[] { "Id", "Built", "CityId", "NrOfFloors", "OfficialHeightInMeters", "Status", "Title" },
-                values: new object[] { 3, 1890, 1, 20, 94, "demolished", "New York World Building" });
+                columns: new[] { "Id", "Built", "CityId", "NrOfFloors", "OfficialHeightInMeters", "StatusId", "Title" },
+                values: new object[] { 3, 1890, 1, 20, 94, 2, "New York World Building" });
 
             migrationBuilder.InsertData(
                 table: "Skyscrapers",
-                columns: new[] { "Id", "Built", "CityId", "NrOfFloors", "OfficialHeightInMeters", "Status", "Title" },
-                values: new object[] { 2, 1889, 2, 17, 82, "standing", "Auditorium Building" });
+                columns: new[] { "Id", "Built", "CityId", "NrOfFloors", "OfficialHeightInMeters", "StatusId", "Title" },
+                values: new object[] { 2, 1889, 2, 17, 82, 1, "Auditorium Building" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
@@ -107,6 +136,11 @@ namespace Skyscrapers.Data.Migrations
                 name: "IX_Skyscrapers_CityId",
                 table: "Skyscrapers",
                 column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skyscrapers_StatusId",
+                table: "Skyscrapers",
+                column: "StatusId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -116,6 +150,9 @@ namespace Skyscrapers.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cities");
+
+            migrationBuilder.DropTable(
+                name: "Statuses");
 
             migrationBuilder.DropTable(
                 name: "Countries");

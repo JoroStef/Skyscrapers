@@ -9,7 +9,7 @@ using Skyscrapers.Data;
 namespace Skyscrapers.Data.Migrations
 {
     [DbContext(typeof(SkyscrapersDbContext))]
-    [Migration("20210824160235_m1")]
+    [Migration("20210826135348_m1")]
     partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,9 +100,8 @@ namespace Skyscrapers.Data.Migrations
                     b.Property<int>("OfficialHeightInMeters")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -110,6 +109,8 @@ namespace Skyscrapers.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Skyscrapers");
 
@@ -121,7 +122,7 @@ namespace Skyscrapers.Data.Migrations
                             CityId = 1,
                             NrOfFloors = 8,
                             OfficialHeightInMeters = 43,
-                            Status = "destroyed",
+                            StatusId = 3,
                             Title = "Equitable Life Building"
                         },
                         new
@@ -131,7 +132,7 @@ namespace Skyscrapers.Data.Migrations
                             CityId = 2,
                             NrOfFloors = 17,
                             OfficialHeightInMeters = 82,
-                            Status = "standing",
+                            StatusId = 1,
                             Title = "Auditorium Building"
                         },
                         new
@@ -141,8 +142,45 @@ namespace Skyscrapers.Data.Migrations
                             CityId = 1,
                             NrOfFloors = 20,
                             OfficialHeightInMeters = 94,
-                            Status = "demolished",
+                            StatusId = 2,
                             Title = "New York World Building"
+                        });
+                });
+
+            modelBuilder.Entity("Skyscrapers.Data.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Value = "standing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Value = "demolished"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Value = "destroyed"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Value = "under construction"
                         });
                 });
 
@@ -165,7 +203,15 @@ namespace Skyscrapers.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Skyscrapers.Data.Status", "Status")
+                        .WithMany("Skyscrapers")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("City");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Skyscrapers.Data.Models.City", b =>
@@ -176,6 +222,11 @@ namespace Skyscrapers.Data.Migrations
             modelBuilder.Entity("Skyscrapers.Data.Models.Country", b =>
                 {
                     b.Navigation("Cities");
+                });
+
+            modelBuilder.Entity("Skyscrapers.Data.Status", b =>
+                {
+                    b.Navigation("Skyscrapers");
                 });
 #pragma warning restore 612, 618
         }

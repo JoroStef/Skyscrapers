@@ -6,6 +6,10 @@ namespace Skyscrapers.Services.Contracts
 {
     public interface ISkyscraperService
     {
-        Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(string title, string[] statuses);
+        Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(
+            string title,
+            string[] statuses,
+            int?[] builtInRange
+            );
     }
 }
