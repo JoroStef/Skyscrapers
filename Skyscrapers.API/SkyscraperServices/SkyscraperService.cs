@@ -57,59 +57,20 @@ namespace Skyscrapers.Services
             return skyscrapers;
         }
 
-        private IQueryable<Skyscraper> FilterByBuiltYears(IQueryable<Skyscraper> skyscrapers, int?[] builtInRange)
-        {
-            // builtInRange = [-,1900]
-            // builtInRange = [1800,-]
-            // builtInRange = [1800,1900]
-
-            // builtInRange = [.,1900]
-            // builtInRange = [1800,.]
-            // builtInRange = [1800,1900]
-
-            if (builtInRange.Length != 2)
-            {
-                throw new ArgumentOutOfRangeException("Expected array with two elements");
-            }
-
-            if (builtInRange[0] == null && builtInRange[1] == null)
-            {
-                return skyscrapers;
-            }
-            else if (builtInRange[0] != null && builtInRange[1] == null)
-            {
-                return skyscrapers.Where(s => s.Built >= builtInRange[0]);
-            }
-            else if (builtInRange[0] == null && builtInRange[1] != null)
-            {
-                return skyscrapers.Where(s => s.Built <= builtInRange[1]);
-            }
-            else
-            {
-                if (builtInRange[0] < builtInRange[1])
-                {
-                    return skyscrapers.Where(s => s.Built >= builtInRange[0] && s.Built <= builtInRange[1]);
-                }
-                else
-                {
-                    throw new ArgumentException("Impropper range of years. The first array element should be less or equal to the second array element.");
-                }
-            }
-        }
-
         private IQueryable<Skyscraper> FilterByBuiltYears(IQueryable<Skyscraper> skyscrapers, string[] builtInRange)
         {
             // builtInRange = [-,1900]
             // builtInRange = [1800,-]
             // builtInRange = [1800,1900]
 
-            // builtInRange = [.,1900]
-            // builtInRange = [1800,.]
-            // builtInRange = [1800,1900]
+            if (builtInRange.Length == 0)
+            {
+                return skyscrapers;
+            }
 
             if (builtInRange.Length != 2)
             {
-                throw new ArgumentOutOfRangeException("Expected array with two elements");
+                throw new ArgumentException("Expected array with two elements.");
             }
 
             if (builtInRange[0] == "-" && builtInRange[1] == "-")

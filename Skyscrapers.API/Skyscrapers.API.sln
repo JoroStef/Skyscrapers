@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyscrapers.Web", "Skyscrap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyscrapers.Data", "Skyscrapers.Data\Skyscrapers.Data.csproj", "{58B1ED93-9B06-41F1-B5EE-27B2BA950BDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscrapers.Services", "SkyscraperServices\Skyscrapers.Services.csproj", "{F3F88D7A-0A63-430E-B631-795A25B340A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skyscrapers.Services", "SkyscraperServices\Skyscrapers.Services.csproj", "{F3F88D7A-0A63-430E-B631-795A25B340A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Skyscrapers.Services.Contracts;
 using Skyscrapers.Services.DTOs;
+using System;
 using System.Threading.Tasks;
 
 namespace Skyscrapers.Web.Controllers
@@ -27,7 +28,7 @@ namespace Skyscrapers.Web.Controllers
         /// 
         /// <param name="statuses">
         /// <para>Status to search for. Could be one of:</para>
-        /// <para>|standing|demolished|destroyed|under construction</para>
+        /// <para>| standing | demolished | destroyed | under construction |</para>
         /// </param>
         /// 
         /// <param name="built_in_range">
@@ -36,16 +37,26 @@ namespace Skyscrapers.Web.Controllers
         /// <para>Years are inclusive.</para>
         /// </param>
         /// <returns></returns>
+        /// <exception cref="ArgumentException">If built_in_range is not proper.</exception>
         [HttpGet("")]
         public async Task<IActionResult> Get(
             [FromQuery] string title,
             [FromQuery] string[] statuses,
             [FromQuery] string[] built_in_range)
+        // Revise 'string[] built_in_range'.
+        // Look in https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-5.0#dictionaries
         {
-            var result = await this.skyscraperService.GetAsync(title, statuses, built_in_range);
+            try
+            {
+                var result = await this.skyscraperService.GetAsync(title, statuses, built_in_range);
 
-            return Ok(result);
+                return Ok(result);
 
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
     }
