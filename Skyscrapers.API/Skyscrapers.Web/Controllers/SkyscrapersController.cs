@@ -22,23 +22,27 @@ namespace Skyscrapers.Web.Controllers
         /// <summary>
         /// Returns skyscrapers collection filtered by title and/or status.
         /// </summary>
+        /// 
         /// <param name="title">String to search for in title.</param>
+        /// 
         /// <param name="statuses">
-        /// Status to search for. Could be one of:
-        /// -- standing
-        /// -- demolished
-        /// -- destroyed
-        /// -- under construction
+        /// <para>Status to search for. Could be one of:</para>
+        /// <para>|standing|demolished|destroyed|under construction</para>
         /// </param>
-        /// <param name="builtInRange">An array of 2 elements Years range to search in. Assign null value for either value to not use the bound.</param>
+        /// 
+        /// <param name="built_in_range">
+        /// <para>An array of 2 elements representing the range of years to search in.</para>
+        /// <para>Assign '-' for either element to simulate infinity in that direction.</para>
+        /// <para>Years are inclusive.</para>
+        /// </param>
         /// <returns></returns>
         [HttpGet("")]
         public async Task<IActionResult> Get(
             [FromQuery] string title,
             [FromQuery] string[] statuses,
-            [FromQuery] int?[] builtInRange)
+            [FromQuery] string[] built_in_range)
         {
-            var result = await this.skyscraperService.GetAsync(title, statuses, builtInRange);
+            var result = await this.skyscraperService.GetAsync(title, statuses, built_in_range);
 
             return Ok(result);
 

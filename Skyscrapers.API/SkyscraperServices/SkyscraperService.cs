@@ -24,7 +24,7 @@ namespace Skyscrapers.Services
         public async Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(
             string title = null,
             string[] statuses = null,
-            int?[] builtInRange = null
+            string[] builtInRange = null
             )
         {
             IQueryable<Skyscraper> skyscrapers = dbContext.Skyscrapers
@@ -59,7 +59,15 @@ namespace Skyscrapers.Services
 
         private IQueryable<Skyscraper> FilterByBuiltYears(IQueryable<Skyscraper> skyscrapers, int?[] builtInRange)
         {
-            if (builtInRange.Length!=2)
+            // builtInRange = [-,1900]
+            // builtInRange = [1800,-]
+            // builtInRange = [1800,1900]
+
+            // builtInRange = [.,1900]
+            // builtInRange = [1800,.]
+            // builtInRange = [1800,1900]
+
+            if (builtInRange.Length != 2)
             {
                 throw new ArgumentOutOfRangeException("Expected array with two elements");
             }
@@ -85,6 +93,68 @@ namespace Skyscrapers.Services
                 else
                 {
                     throw new ArgumentException("Impropper range of years. The first array element should be less or equal to the second array element.");
+                }
+            }
+        }
+
+        private IQueryable<Skyscraper> FilterByBuiltYears(IQueryable<Skyscraper> skyscrapers, string[] builtInRange)
+        {
+            // builtInRange = [-,1900]
+            // builtInRange = [1800,-]
+            // builtInRange = [1800,1900]
+
+            // builtInRange = [.,1900]
+            // builtInRange = [1800,.]
+            // builtInRange = [1800,1900]
+
+            if (builtInRange.Length != 2)
+            {
+                throw new ArgumentOutOfRangeException("Expected array with two elements");
+            }
+
+            if (builtInRange[0] == "-" && builtInRange[1] == "-")
+            {
+                return skyscrapers;
+            }
+            else if (builtInRange[0] != "-" && builtInRange[1] == "-")
+            {
+
+                if (int.TryParse(builtInRange[0], out int y))
+                {
+                    return skyscrapers.Where(s => s.Built >= y);
+                }
+                else
+                {
+                    throw new ArgumentException("Year must be an integer.");
+                }
+            }
+            else if (builtInRange[0] == "-" && builtInRange[1] != "-")
+            {
+                if (int.TryParse(builtInRange[1], out int y))
+                {
+                    return skyscrapers.Where(s => s.Built <= y);
+                }
+                else
+                {
+                    throw new ArgumentException("Year must be an integer.");
+                }
+            }
+            else
+            {
+                if (int.TryParse(builtInRange[0], out int y1) && int.TryParse(builtInRange[1], out int y2))
+                {
+                    if (y1 <= y2)
+                    {
+                        return skyscrapers.Where(s => s.Built >= y1 && s.Built <= y2);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Impropper range of years. The first array element should be less or equal to the second array element.");
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Years must be an integer.");
                 }
             }
         }

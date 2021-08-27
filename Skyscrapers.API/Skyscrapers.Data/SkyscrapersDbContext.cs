@@ -30,24 +30,6 @@ namespace Skyscrapers.Data
             modelBuilder.Entity<Skyscraper>().HasData(SeedDataFor<Skyscraper>("skyscrapers"));
         }
 
-        // Using Newtonsoft.Json
-        //private List<T> SeedDataFor<T>(string token)
-        //{
-        //    string directory = Environment.CurrentDirectory + @"\..\"; ;
-        //    string filePath = Path.Combine(directory, @"Skyscrapers.Data\SeedData.json");
-        //    var result = new List<T>();
-
-        //    using (StreamReader r = new StreamReader(filePath))
-        //    {
-        //        string json = r.ReadToEnd();
-        //        JObject jObj = JObject.Parse(json);
-        //        JArray jArr = (JArray)jObj.SelectToken(token);
-        //        result = JsonConvert.DeserializeObject<List<T>>(jArr.ToString());
-        //    }
-
-        //    return result;
-        //}
-
         // Using System.Text.Json
         
         public static List<T> SeedDataFor<T>(string token)

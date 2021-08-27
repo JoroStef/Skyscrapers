@@ -9,7 +9,7 @@ namespace Skyscrapers.Services.Contracts
         Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(
             string title,
             string[] statuses,
-            int?[] builtInRange
+            string[] builtInRange
             );
     }
 }
