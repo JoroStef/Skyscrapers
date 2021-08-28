@@ -1,4 +1,5 @@
-﻿using Skyscrapers.Services.DTOs;
+﻿using Skyscrapers.RoutingModels;
+using Skyscrapers.Services.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace Skyscrapers.Services.Contracts
         Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(
             string title,
             string[] statuses,
-            string[] builtInRange
+            BuiltInRangeRoutingParam builtInRange
             );
     }
 }

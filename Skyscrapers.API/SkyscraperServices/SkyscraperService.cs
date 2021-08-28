@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skyscrapers.Data;
 using Skyscrapers.Data.Models;
-using Skyscrapers.Data.Models.Enums;
+using Skyscrapers.RoutingModels;
 using Skyscrapers.Services.Contracts;
 using Skyscrapers.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data.SqlTypes;
 
 namespace Skyscrapers.Services
 {
@@ -24,7 +23,7 @@ namespace Skyscrapers.Services
         public async Task<IEnumerable<SkyscraperOutputDTO>> GetAsync(
             string title = null,
             string[] statuses = null,
-            string[] builtInRange = null
+            BuiltInRangeRoutingParam builtInRange = null
             )
         {
             IQueryable<Skyscraper> skyscrapers = dbContext.Skyscrapers
@@ -116,6 +115,37 @@ namespace Skyscrapers.Services
                 else
                 {
                     throw new ArgumentException("Years must be an integer.");
+                }
+            }
+        }
+
+        private IQueryable<Skyscraper> FilterByBuiltYears(IQueryable<Skyscraper> skyscrapers, BuiltInRangeRoutingParam builtInRange)
+        {
+            // builtInRange = [-,1900]
+            // builtInRange = [1800,-]
+            // builtInRange = [1800,1900]
+
+            if (builtInRange.Lower == null && builtInRange.Upper == null)
+            {
+                return skyscrapers;
+            }
+            else if (builtInRange.Lower != null && builtInRange.Upper == null)
+            {
+                return skyscrapers.Where(s => s.Built >= builtInRange.Lower);
+            }
+            else if (builtInRange.Lower == null && builtInRange.Upper != null)
+            {
+                return skyscrapers.Where(s => s.Built <= builtInRange.Upper);
+            }
+            else
+            {
+                if (builtInRange.Lower <= builtInRange.Upper)
+                {
+                    return skyscrapers.Where(s => s.Built >= builtInRange.Lower && s.Built <= builtInRange.Upper);
+                }
+                else
+                {
+                    throw new ArgumentException("Impropper range boundaries.");
                 }
             }
         }

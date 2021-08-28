@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Skyscrapers.RoutingModels;
 using Skyscrapers.Services.Contracts;
-using Skyscrapers.Services.DTOs;
 using System;
 using System.Threading.Tasks;
 
@@ -36,15 +36,15 @@ namespace Skyscrapers.Web.Controllers
         /// <para>Assign '-' for either element to simulate infinity in that direction.</para>
         /// <para>Years are inclusive.</para>
         /// </param>
+        /// 
         /// <returns></returns>
         /// <exception cref="ArgumentException">If built_in_range is not proper.</exception>
         [HttpGet("")]
         public async Task<IActionResult> Get(
             [FromQuery] string title,
             [FromQuery] string[] statuses,
-            [FromQuery] string[] built_in_range)
-        // Revise 'string[] built_in_range'.
-        // Look in https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-5.0#dictionaries
+            [FromQuery] BuiltInRangeRoutingParam built_in_range)
+        // Swagger does not show XML comments about 'built_in_range' !?
         {
             try
             {
