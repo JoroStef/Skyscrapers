@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RoutingModels\Skyscrapers.RoutingModels.csproj" />
     <ProjectReference Include="..\Skyscrapers.Data\Skyscrapers.Data.csproj" />
   </ItemGroup>
 

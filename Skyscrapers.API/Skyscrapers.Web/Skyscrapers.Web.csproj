@@ -15,7 +15,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\RoutingModels\Skyscrapers.RoutingModels.csproj" />
 		<ProjectReference Include="..\Skyscrapers.Data\Skyscrapers.Data.csproj" />
 		<ProjectReference Include="..\SkyscraperServices\Skyscrapers.Services.csproj" />
 	</ItemGroup>

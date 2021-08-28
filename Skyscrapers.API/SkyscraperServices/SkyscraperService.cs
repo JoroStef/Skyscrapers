@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Skyscrapers.Data;
 using Skyscrapers.Data.Models;
-using Skyscrapers.RoutingModels;
 using Skyscrapers.Services.Contracts;
 using Skyscrapers.Services.DTOs;
 using System;
@@ -121,10 +120,6 @@ namespace Skyscrapers.Services
 
         private IQueryable<Skyscraper> FilterByBuiltYears(IQueryable<Skyscraper> skyscrapers, BuiltInRangeRoutingParam builtInRange)
         {
-            // builtInRange = [-,1900]
-            // builtInRange = [1800,-]
-            // builtInRange = [1800,1900]
-
             if (builtInRange.Lower == null && builtInRange.Upper == null)
             {
                 return skyscrapers;
@@ -145,7 +140,7 @@ namespace Skyscrapers.Services
                 }
                 else
                 {
-                    throw new ArgumentException("Impropper range boundaries.");
+                    throw new ArgumentException("Impropper years range limits. The lower limit is greater than the upper limit.");
                 }
             }
         }

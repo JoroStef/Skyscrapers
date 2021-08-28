@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Skyscrapers.RoutingModels
+﻿namespace Skyscrapers.Services.DTOs
 {
     public class BuiltInRangeRoutingParam
     {
@@ -10,10 +8,8 @@ namespace Skyscrapers.RoutingModels
             this.Upper = built_in_range_upper_limit;
         }
 
-        //[FromQuery(Name = "built_in_range_lower_limit")]
         public int? Lower { get; set; }
 
-        //[FromQuery(Name = "built_in_range_upper_limit")]
         public int? Upper { get; set; }
     }
 }
